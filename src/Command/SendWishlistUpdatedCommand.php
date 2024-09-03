@@ -12,27 +12,19 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class SendWishlistUpdatedCommand extends Command
 {
-    private EntityManagerInterface $em;
-    private ParticipantMailQuery $participantMailQuery;
-    private MailerService $mailerService;
-
     public function __construct(
-        EntityManagerInterface $em,
-        ParticipantMailQuery $participantMailQuery,
-        MailerService $mailerService
+        private EntityManagerInterface $em,
+        private ParticipantMailQuery $participantMailQuery,
+        private MailerService $mailerService
     ) {
-        $this->em = $em;
-        $this->participantMailQuery = $participantMailQuery;
-        $this->mailerService = $mailerService;
-
         parent::__construct();
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void
+	{
         $this
             ->setName('app:sendWishlistUpdatedMails')
             ->setDescription('Send notification to buddy to alert them the wishlist has been updated');

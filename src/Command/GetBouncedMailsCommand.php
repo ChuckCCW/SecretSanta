@@ -9,28 +9,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class GetBouncedMailsCommand extends Command
 {
-    private BounceQuery $bounceQuery;
-
-    public function __construct(BounceQuery $bounceQuery)
+    public function __construct(private BounceQuery $bounceQuery)
     {
-        $this->bounceQuery = $bounceQuery;
-
         parent::__construct();
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void
+	{
         $this
             ->setName('app:getBounced')
             ->setDescription('Get bounced emails');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+	/**
+	 * {@inheritdoc}
+	 * @throws \Exception
+	 */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $bounces = $this->bounceQuery->getBounces();

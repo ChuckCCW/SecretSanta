@@ -11,24 +11,18 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class HashBlacklistCommand extends Command
 {
-    private EntityManagerInterface $em;
-    private HashService $hashService;
-
     public function __construct(
-        EntityManagerInterface $em,
-        HashService $hashService
+        private EntityManagerInterface $em,
+        private HashService $hashService
     ) {
-        $this->em = $em;
-        $this->hashService = $hashService;
-
         parent::__construct();
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void
+	{
         $this
             ->setName('app:hash-black-list')
             ->setDescription('Hash black listed mail addresses.');

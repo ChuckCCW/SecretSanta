@@ -11,21 +11,16 @@ use App\Service\ReportQueriesService;
 
 class ReportQueriesCommand extends Command
 {
-    private ReportQueriesService $reportQueriesService;
-    private ExportReportQueriesService $exportReportQueriesService;
-
-    public function __construct(ReportQueriesService $reportQueriesService, ExportReportQueriesService $exportReportQueriesService)
+    public function __construct(private ReportQueriesService $reportQueriesService, private ExportReportQueriesService $exportReportQueriesService)
     {
         parent::__construct();
-        $this->reportQueriesService = $reportQueriesService;
-        $this->exportReportQueriesService = $exportReportQueriesService;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void
+	{
         $this
             ->setName('app:report-queries')
             ->setDescription('Export report queries')

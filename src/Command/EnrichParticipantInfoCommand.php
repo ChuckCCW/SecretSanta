@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use MaxMind\Db\Reader\InvalidDatabaseException;
 use Symfony\Component\Console\Command\Command;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,27 +13,19 @@ use GeoIp2\Exception\AddressNotFoundException;
 
 class EnrichParticipantInfoCommand extends Command
 {
-    private ParticipantRepository $participantRepository;
-    private EntityManagerInterface $em;
-    private string $geoIpDbPath;
-
     public function __construct(
-        ParticipantRepository $participantRepository,
-        EntityManagerInterface $em,
-        string $geoIpDbPath
+        private ParticipantRepository $participantRepository,
+        private EntityManagerInterface $em,
+        private string $geoIpDbPath
     ) {
-        $this->participantRepository = $participantRepository;
-        $this->em = $em;
-        $this->geoIpDbPath = $geoIpDbPath;
-
         parent::__construct();
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function configure()
-    {
+    protected function configure(): void
+	{
         $this
             ->setName('app:enrich:participants')
             ->setDescription('Enrich the participant information');
@@ -40,7 +33,8 @@ class EnrichParticipantInfoCommand extends Command
 
     /**
      * {@inheritdoc}
-     */
+	 * @throws InvalidDatabaseException
+	 */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $batchSize = 1000;
